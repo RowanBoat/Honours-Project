@@ -2,7 +2,6 @@
 //
 
 #include <iostream>
-#include "openGA.hpp"
 
 int main()
 {
