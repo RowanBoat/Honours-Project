@@ -8,13 +8,28 @@
 using std::string;
 using std::endl;
 
+string dmgTypes[10]
+{ 
+    "acid", 
+    "cold", 
+    "fire", 
+    "force", 
+    "lightning", 
+    "necrotic", 
+    "poison", 
+    "psychic", 
+    "radiant", 
+    "thunder" 
+};
+
 struct GeneratedSpell
 {
     int level = 0;
     int range = 0;
     int duration = 0;
-    int dmgDice = 8;
+    int dmgDice = 0;
     int numberOfDmgDice = 0;
+    int dmgType = 0;
     
     bool hasAdditionalEffect = false;
 
@@ -86,36 +101,48 @@ GeneratedSpell generateSpell()
         newSpell.durationStr = "Instantaneous";
     }
 
+    // Randomly decide damaging spell's damage and type
+    newSpell.dmgDice = rand() % 5 + 2;
+    newSpell.dmgDice *= 2;
+    newSpell.dmgType = rand() % 10;
+
     // Converting damage integers to string to be output in "XdY" format
-    newSpell.damage = std::to_string(newSpell.numberOfDmgDice) + "d" + std::to_string(newSpell.dmgDice) + " [TBD] Damage";
+    newSpell.damage = std::to_string(newSpell.numberOfDmgDice) + "d" + std::to_string(newSpell.dmgDice) + " " + dmgTypes[newSpell.dmgType] + " Damage";
 
     return newSpell;
 }
 
 int main()
 {
-    srand(time(NULL));
-    std::vector<GeneratedSpell> newSpells;
-
-    /////////////////////////////////////////////
-    // TO-DO: MODIFY OUTPUT TO CREATE MULTIPLE //
-    //        NEW SPELLS INSIDE VECTOR         //
-    /////////////////////////////////////////////
-
+    int numberOfSpells = 0;
     GeneratedSpell spellBuffer;
-    spellBuffer = generateSpell();
+    std::vector<GeneratedSpell> spells;
+    srand(time(NULL));
+
+    std::cout << "Input Number of Spells to be Generated: ";
+    std::cin >> numberOfSpells;
+    std::cout << "Generating Spells..." << endl;
+
+    for (int i = 0; i < numberOfSpells; i++)
+    {
+        spellBuffer = generateSpell();
+        spells.push_back(spellBuffer);
+    }
 
     // Output generated spells, cout structured as it should be output
-    std::cout << "Spell has been generated:" << endl 
-              << endl
-              << "             Name: " << spellBuffer.name << endl 
-              << "            Level: " << spellBuffer.levelStr << endl
-              << "     Casting Time: " << spellBuffer.castTime << endl
-              << "            Range: " << spellBuffer.rangeStr << endl
-              << "       Components: " << spellBuffer.components << endl
-              << "         Duration: " << spellBuffer.durationStr << endl
-              << "           Damage: " << spellBuffer.damage << endl
-              << "Additional Effect: " << spellBuffer.additionalEffectStr << endl;
+    for (int i = 0; i < spells.size(); i++)
+    {
+        std::cout << endl << "Spell has been generated:" << endl
+                  << endl
+                  << "             Name: " << spells[i].name << endl
+                  << "            Level: " << spells[i].levelStr << endl
+                  << "     Casting Time: " << spells[i].castTime << endl
+                  << "            Range: " << spells[i].rangeStr << endl
+                  << "       Components: " << spells[i].components << endl
+                  << "         Duration: " << spells[i].durationStr << endl
+                  << "           Damage: " << spells[i].damage << endl
+                  << "Additional Effect: " << spells[i].additionalEffectStr << endl;
+    }
 
     ///////////////////////////////////////////
     // TO-DO: ADD WRITE-TO-CSV FUNCTIONALITY //
