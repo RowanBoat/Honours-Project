@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <fstream>
 
 using std::string;
 using std::endl;
@@ -21,6 +22,10 @@ string dmgTypes[10]
     "radiant", 
     "thunder" 
 };
+
+//////////////////////////////////
+// TO-DO: ADD RANGE VALUE ARRAY //
+//////////////////////////////////
 
 struct GeneratedSpell
 {
@@ -46,10 +51,6 @@ struct GeneratedSpell
 GeneratedSpell generateSpell()
 {
     GeneratedSpell newSpell;
-
-    /////////////////////////////////////////////
-    // TO-DO: ADD CODE TO GENERATE A NEW SPELL //
-    /////////////////////////////////////////////
 
     // Setting spell name, currently set to "[TBD]" but may change later
     newSpell.name = "[TBD]";
@@ -117,6 +118,7 @@ int main()
     int numberOfSpells = 0;
     GeneratedSpell spellBuffer;
     std::vector<GeneratedSpell> spells;
+    std::ofstream output("output.csv");
     srand(time(NULL));
 
     std::cout << "Input Number of Spells to be Generated: ";
@@ -126,27 +128,34 @@ int main()
     for (int i = 0; i < numberOfSpells; i++)
     {
         spellBuffer = generateSpell();
+
+        // Output generated spells to command line, cout structured as it should be output
+        std::cout << endl << "Spell has been generated:" << endl
+                  << endl
+                  << "             Name: " << spellBuffer.name << endl
+                  << "            Level: " << spellBuffer.levelStr << endl
+                  << "     Casting Time: " << spellBuffer.castTime << endl
+                  << "            Range: " << spellBuffer.rangeStr << endl
+                  << "       Components: " << spellBuffer.components << endl
+                  << "         Duration: " << spellBuffer.durationStr << endl
+                  << "           Damage: " << spellBuffer.damage << endl
+                  << "Additional Effect: " << spellBuffer.additionalEffectStr << endl;
+
         spells.push_back(spellBuffer);
     }
 
-    // Output generated spells, cout structured as it should be output
+    // Output the generated spells to the output.csv file
     for (int i = 0; i < spells.size(); i++)
     {
-        std::cout << endl << "Spell has been generated:" << endl
-                  << endl
-                  << "             Name: " << spells[i].name << endl
-                  << "            Level: " << spells[i].levelStr << endl
-                  << "     Casting Time: " << spells[i].castTime << endl
-                  << "            Range: " << spells[i].rangeStr << endl
-                  << "       Components: " << spells[i].components << endl
-                  << "         Duration: " << spells[i].durationStr << endl
-                  << "           Damage: " << spells[i].damage << endl
-                  << "Additional Effect: " << spells[i].additionalEffectStr << endl;
+        output << "Name," << spells[i].name << endl
+               << "Level," << spells[i].levelStr << endl
+               << "Casting Time," << spells[i].castTime << endl
+               << "Range," << spells[i].rangeStr << endl
+               << "Components," << spells[i].components << endl
+               << "Duration," << spells[i].durationStr << endl
+               << "Damage," << spells[i].damage << endl
+               << "Additional Effect," << spells[i].additionalEffectStr << endl << endl;
     }
-
-    ///////////////////////////////////////////
-    // TO-DO: ADD WRITE-TO-CSV FUNCTIONALITY //
-    ///////////////////////////////////////////
 
     return 0;
 }
