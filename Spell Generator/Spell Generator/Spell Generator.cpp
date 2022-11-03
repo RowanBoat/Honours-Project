@@ -69,7 +69,13 @@ GeneratedSpell generateSpell()
     // Converting level int to string, currently defaulting to 0 (cantrips)
     if (newSpell.level > 0)
     {
-        newSpell.levelStr = std::to_string(newSpell.level);
+        switch (newSpell.level)
+        {
+        case 1: newSpell.levelStr = std::to_string(newSpell.level) + "st"; break;
+        case 2: newSpell.levelStr = std::to_string(newSpell.level) + "nd"; break;
+        case 3: newSpell.levelStr = std::to_string(newSpell.level) + "rd"; break;
+        default: newSpell.levelStr = std::to_string(newSpell.level) + "th"; break;
+        }
     }
     else
     {
@@ -108,7 +114,7 @@ GeneratedSpell generateSpell()
     newSpell.dmgType = rand() % 10;
 
     // Converting damage integers to string to be output in "XdY" format
-    newSpell.damage = std::to_string(newSpell.numberOfDmgDice) + "d" + std::to_string(newSpell.dmgDice) + " " + dmgTypes[newSpell.dmgType] + " Damage";
+    newSpell.damage = std::to_string(newSpell.numberOfDmgDice) + "d" + std::to_string(newSpell.dmgDice) + " " + dmgTypes[newSpell.dmgType];
 
     return newSpell;
 }
@@ -139,23 +145,68 @@ int main()
                   << "       Components: " << spellBuffer.components << endl
                   << "         Duration: " << spellBuffer.durationStr << endl
                   << "           Damage: " << spellBuffer.damage << endl
-                  << "Additional Effect: " << spellBuffer.additionalEffectStr << endl;
+                  << "Additional Effect: " << spellBuffer.additionalEffectStr << endl 
+                  << endl;
 
         spells.push_back(spellBuffer);
     }
 
     // Output the generated spells to the output.csv file
-    for (int i = 0; i < spells.size(); i++)
+    if (output.good())
     {
-        output << "Name," << spells[i].name << endl
-               << "Level," << spells[i].levelStr << endl
-               << "Casting Time," << spells[i].castTime << endl
-               << "Range," << spells[i].rangeStr << endl
-               << "Components," << spells[i].components << endl
-               << "Duration," << spells[i].durationStr << endl
-               << "Damage," << spells[i].damage << endl
-               << "Additional Effect," << spells[i].additionalEffectStr << endl << endl;
+        output << "Name,,";
+        for (int i = 0; i < spells.size(); i++)
+        {
+            output << spells[i].name << ",,";
+        }
+
+        output << endl << "Level,,";
+        for (int i = 0; i < spells.size(); i++)
+        {
+            output << spells[i].levelStr << ",,";
+        }
+
+        output << endl << "Casting Time,,";
+        for (int i = 0; i < spells.size(); i++)
+        {
+            output << spells[i].castTime << ",,";
+        }
+
+        output << endl << "Range,,";
+        for (int i = 0; i < spells.size(); i++)
+        {
+            output << spells[i].rangeStr << ",,";
+        }
+
+        output << endl << "Components,,";
+        for (int i = 0; i < spells.size(); i++)
+        {
+            output << spells[i].components << ",,";
+        }
+
+        output << endl << "Duration,,";
+        for (int i = 0; i < spells.size(); i++)
+        {
+            output << spells[i].durationStr << ",,";
+        }
+
+        output << endl << "Damage,,";
+        for (int i = 0; i < spells.size(); i++)
+        {
+            output << spells[i].damage << ",,";
+        }
+
+        output << endl << "Additional Effect,,";
+        for (int i = 0; i < spells.size(); i++)
+        {
+            output << spells[i].additionalEffectStr << ",,";
+        }
+    }
+    else
+    {
+        std::cout << "ERROR: File Could Not Be Opened" << endl;
     }
 
+    output.close();
     return 0;
 }
