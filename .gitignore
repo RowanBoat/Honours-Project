@@ -32,4 +32,4 @@
 *.app
 
 # Files Modified During Runtime
-output.csv
+*.csv

@@ -201,6 +201,8 @@ int main()
         {
             output << spells[i].additionalEffectStr << ",,";
         }
+
+        std::cout << "SUCCESS: Output Written To CSV File" << endl;
     }
     else
     {
