@@ -131,6 +131,16 @@ int main()
     std::cin >> numberOfSpells;
     std::cout << "Generating Spells..." << endl;
 
+    spellBuffer.name = "Name";
+    spellBuffer.levelStr = "Level";
+    spellBuffer.castTime = "Casting Time";
+    spellBuffer.rangeStr = "Range";
+    spellBuffer.components = "Components";
+    spellBuffer.durationStr = "Duration";
+    spellBuffer.damage = "Damage";
+    spellBuffer.additionalEffectStr = "Additional Effect";
+    spells.push_back(spellBuffer);
+
     for (int i = 0; i < numberOfSpells; i++)
     {
         spellBuffer = generateSpell();
@@ -154,53 +164,36 @@ int main()
     // Output the generated spells to the output.csv file
     if (output.good())
     {
-        output << "Name,,";
         for (int i = 0; i < spells.size(); i++)
-        {
             output << spells[i].name << ",,";
-        }
 
-        output << endl << "Level,,";
+        output << endl;
         for (int i = 0; i < spells.size(); i++)
-        {
             output << spells[i].levelStr << ",,";
-        }
 
-        output << endl << "Casting Time,,";
+        output << endl;
         for (int i = 0; i < spells.size(); i++)
-        {
             output << spells[i].castTime << ",,";
-        }
 
-        output << endl << "Range,,";
+        output << endl;
         for (int i = 0; i < spells.size(); i++)
-        {
             output << spells[i].rangeStr << ",,";
-        }
 
-        output << endl << "Components,,";
+        output << endl;
         for (int i = 0; i < spells.size(); i++)
-        {
             output << spells[i].components << ",,";
-        }
 
-        output << endl << "Duration,,";
+        output << endl;
         for (int i = 0; i < spells.size(); i++)
-        {
             output << spells[i].durationStr << ",,";
-        }
 
-        output << endl << "Damage,,";
+        output << endl;
         for (int i = 0; i < spells.size(); i++)
-        {
             output << spells[i].damage << ",,";
-        }
 
-        output << endl << "Additional Effect,,";
+        output << endl;
         for (int i = 0; i < spells.size(); i++)
-        {
             output << spells[i].additionalEffectStr << ",,";
-        }
 
         std::cout << "SUCCESS: Output Written To CSV File" << endl;
     }
