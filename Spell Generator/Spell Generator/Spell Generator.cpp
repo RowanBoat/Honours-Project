@@ -127,19 +127,22 @@ int main()
     std::ofstream output("output.csv");
     srand(time(NULL));
 
-    std::cout << "Input Number of Spells to be Generated: ";
-    std::cin >> numberOfSpells;
-    std::cout << "Generating Spells..." << endl;
+    // 2D Vector for spell components to be stored in
+    std::vector<std::vector<string>> spells2D;
+    spells2D.resize(8);
 
-    spellBuffer.name = "Name";
-    spellBuffer.levelStr = "Level";
-    spellBuffer.castTime = "Casting Time";
-    spellBuffer.rangeStr = "Range";
-    spellBuffer.components = "Components";
-    spellBuffer.durationStr = "Duration";
-    spellBuffer.damage = "Damage";
-    spellBuffer.additionalEffectStr = "Additional Effect";
-    spells.push_back(spellBuffer);
+    std::cout << "Input Number of spells2D to be Generated: ";
+    std::cin >> numberOfSpells;
+    std::cout << endl << "Generating Spells..." << endl;
+
+    spells2D[0].push_back("Name");
+    spells2D[1].push_back("Level");
+    spells2D[2].push_back("Casting Time");
+    spells2D[3].push_back("Range");
+    spells2D[4].push_back("Components");
+    spells2D[5].push_back("Duration");
+    spells2D[6].push_back("Damage");
+    spells2D[7].push_back("Additional Effect");
 
     for (int i = 0; i < numberOfSpells; i++)
     {
@@ -158,42 +161,29 @@ int main()
                   << "Additional Effect: " << spellBuffer.additionalEffectStr << endl 
                   << endl;
 
+        // Adds new spell to spells 2D vector for output
+        spells2D[0].push_back(spellBuffer.name);
+        spells2D[1].push_back(spellBuffer.levelStr);
+        spells2D[2].push_back(spellBuffer.castTime);
+        spells2D[3].push_back(spellBuffer.rangeStr);
+        spells2D[4].push_back(spellBuffer.components);
+        spells2D[5].push_back(spellBuffer.durationStr);
+        spells2D[6].push_back(spellBuffer.damage);
+        spells2D[7].push_back(spellBuffer.additionalEffectStr);
+
+        // Stores spell data in vector for future use
         spells.push_back(spellBuffer);
     }
 
     // Output the generated spells to the output.csv file
     if (output.good())
     {
-        for (int i = 0; i < spells.size(); i++)
-            output << spells[i].name << ",,";
-
-        output << endl;
-        for (int i = 0; i < spells.size(); i++)
-            output << spells[i].levelStr << ",,";
-
-        output << endl;
-        for (int i = 0; i < spells.size(); i++)
-            output << spells[i].castTime << ",,";
-
-        output << endl;
-        for (int i = 0; i < spells.size(); i++)
-            output << spells[i].rangeStr << ",,";
-
-        output << endl;
-        for (int i = 0; i < spells.size(); i++)
-            output << spells[i].components << ",,";
-
-        output << endl;
-        for (int i = 0; i < spells.size(); i++)
-            output << spells[i].durationStr << ",,";
-
-        output << endl;
-        for (int i = 0; i < spells.size(); i++)
-            output << spells[i].damage << ",,";
-
-        output << endl;
-        for (int i = 0; i < spells.size(); i++)
-            output << spells[i].additionalEffectStr << ",,";
+        std::ostream_iterator<std::string> output_iterator(output, ",,");
+        for (int i = 0; i < spells2D.size(); i++)
+        {
+            std::copy(spells2D[i].begin(), spells2D[i].end(), output_iterator);
+            output << endl;
+        }
 
         std::cout << "SUCCESS: Output Written To CSV File" << endl;
     }
