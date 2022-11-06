@@ -55,17 +55,6 @@ GeneratedSpell generateSpell()
     // Setting spell name, currently set to "[TBD]" but may change later
     newSpell.name = "[TBD]";
 
-    // Deciding whether spell has additional effect, may be expanded upon later
-    newSpell.hasAdditionalEffect = rand() % 2;
-    if (newSpell.hasAdditionalEffect)
-    {
-        newSpell.additionalEffectStr = "Yes";
-    }
-    else
-    {
-        newSpell.additionalEffectStr = "No";
-    }
-
     // Converting level int to string, currently defaulting to 0 (cantrips)
     if (newSpell.level > 0)
     {
@@ -116,6 +105,17 @@ GeneratedSpell generateSpell()
     // Converting damage integers to string to be output in "XdY" format
     newSpell.damage = std::to_string(newSpell.numberOfDmgDice) + "d" + std::to_string(newSpell.dmgDice) + " " + dmgTypes[newSpell.dmgType];
 
+    // Deciding whether spell has additional effect, may be expanded upon later
+    newSpell.hasAdditionalEffect = rand() % 2;
+    if (newSpell.hasAdditionalEffect)
+    {
+        newSpell.additionalEffectStr = "Yes";
+    }
+    else
+    {
+        newSpell.additionalEffectStr = "No";
+    }
+
     return newSpell;
 }
 
@@ -123,26 +123,26 @@ int main()
 {
     int numberOfSpells = 0;
     GeneratedSpell spellBuffer;
-    std::vector<GeneratedSpell> spells;
+    std::vector<GeneratedSpell> spellsData;
     std::ofstream output("output.csv");
     srand(time(NULL));
 
     // 2D Vector for spell components to be stored in
-    std::vector<std::vector<string>> spells2D;
-    spells2D.resize(8);
+    std::vector<std::vector<string>> spells;
+    spells.resize(8);
 
-    std::cout << "Input Number of spells2D to be Generated: ";
+    std::cout << "Input Number of spells to be Generated: ";
     std::cin >> numberOfSpells;
     std::cout << endl << "Generating Spells..." << endl;
 
-    spells2D[0].push_back("Name");
-    spells2D[1].push_back("Level");
-    spells2D[2].push_back("Casting Time");
-    spells2D[3].push_back("Range");
-    spells2D[4].push_back("Components");
-    spells2D[5].push_back("Duration");
-    spells2D[6].push_back("Damage");
-    spells2D[7].push_back("Additional Effect");
+    spells[0].push_back("Name");
+    spells[1].push_back("Level");
+    spells[2].push_back("Casting Time");
+    spells[3].push_back("Range");
+    spells[4].push_back("Components");
+    spells[5].push_back("Duration");
+    spells[6].push_back("Damage");
+    spells[7].push_back("Additional Effect");
 
     for (int i = 0; i < numberOfSpells; i++)
     {
@@ -162,26 +162,26 @@ int main()
                   << endl;
 
         // Adds new spell to spells 2D vector for output
-        spells2D[0].push_back(spellBuffer.name);
-        spells2D[1].push_back(spellBuffer.levelStr);
-        spells2D[2].push_back(spellBuffer.castTime);
-        spells2D[3].push_back(spellBuffer.rangeStr);
-        spells2D[4].push_back(spellBuffer.components);
-        spells2D[5].push_back(spellBuffer.durationStr);
-        spells2D[6].push_back(spellBuffer.damage);
-        spells2D[7].push_back(spellBuffer.additionalEffectStr);
+        spells[0].push_back(spellBuffer.name);
+        spells[1].push_back(spellBuffer.levelStr);
+        spells[2].push_back(spellBuffer.castTime);
+        spells[3].push_back(spellBuffer.rangeStr);
+        spells[4].push_back(spellBuffer.components);
+        spells[5].push_back(spellBuffer.durationStr);
+        spells[6].push_back(spellBuffer.damage);
+        spells[7].push_back(spellBuffer.additionalEffectStr);
 
         // Stores spell data in vector for future use
-        spells.push_back(spellBuffer);
+        spellsData.push_back(spellBuffer);
     }
 
     // Output the generated spells to the output.csv file
     if (output.good())
     {
         std::ostream_iterator<std::string> output_iterator(output, ",,");
-        for (int i = 0; i < spells2D.size(); i++)
+        for (int i = 0; i < spells.size(); i++)
         {
-            std::copy(spells2D[i].begin(), spells2D[i].end(), output_iterator);
+            std::copy(spells[i].begin(), spells[i].end(), output_iterator);
             output << endl;
         }
 
