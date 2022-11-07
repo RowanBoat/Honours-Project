@@ -67,20 +67,13 @@ GeneratedSpell generateSpell()
     }
 
     // Converting level int to string, currently defaulting to 0 (cantrips)
-    if (newSpell.level > 0)
+    switch (newSpell.level)
     {
-        switch (newSpell.level)
-        {
+        case 0: newSpell.levelStr = "Cantrip"; newSpell.numberOfDmgDice = 1; break;
         case 1: newSpell.levelStr = std::to_string(newSpell.level) + "st"; break;
         case 2: newSpell.levelStr = std::to_string(newSpell.level) + "nd"; break;
         case 3: newSpell.levelStr = std::to_string(newSpell.level) + "rd"; break;
         default: newSpell.levelStr = std::to_string(newSpell.level) + "th"; break;
-        }
-    }
-    else
-    {
-        newSpell.numberOfDmgDice = 1;
-        newSpell.levelStr = "Cantrip";
     }
 
     newSpell.castTime = "1 action"; // Needs more functionality later, 1 action will do for now
