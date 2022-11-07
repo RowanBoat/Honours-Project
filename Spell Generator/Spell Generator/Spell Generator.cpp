@@ -23,6 +23,10 @@ string dmgTypes[10]
     "thunder" 
 };
 
+///////////////////////////////////////////
+// TO DO: ADD DAMAGE TYPE TIERING SYSTEM //
+///////////////////////////////////////////
+
 //////////////////////////////////
 // TO-DO: ADD RANGE VALUE ARRAY //
 //////////////////////////////////
@@ -94,10 +98,10 @@ GeneratedSpell generateSpell()
     newSpell.dmgDice *= 2;
     newSpell.dmgType = rand() % 10;
 
-    // Converting damage integers to string to be output in "XdY" format
+    // Converting damage integers to string to be output in "XdY [type]" format
     newSpell.damage = std::to_string(newSpell.numberOfDmgDice) + "d" + std::to_string(newSpell.dmgDice) + " " + dmgTypes[newSpell.dmgType];
 
-    // Deciding whether spell has additional effect, may be expanded upon later
+    // Deciding whether spell has additional effect, weighted 70/30 in favour of yes
     newSpell.hasAdditionalEffect = rand() % 100;
     if (newSpell.hasAdditionalEffect < 70)
     {
@@ -116,17 +120,19 @@ int main()
     int numberOfSpells = 0;
     GeneratedSpell spellBuffer;
     std::vector<GeneratedSpell> spellsData;
-    std::ofstream output("output.csv");
+    std::ofstream output("output.csv"); // This is where any generated spells will be stored after the program is completed
     srand(time(NULL));
 
     // 2D Vector for spell components to be stored in
     std::vector<std::vector<string>> spells;
-    spells.resize(8);
+    spells.resize(8); // Number of output components
 
+    // Setting up input for user to decide how many spells they want
     std::cout << "Input Number of spells to be Generated: ";
     std::cin >> numberOfSpells;
     std::cout << endl << "Generating Spells..." << endl;
 
+    // Setting up headers for the csv output by making them the first addition to the spells 2D vector
     spells[0].push_back("Name");
     spells[1].push_back("Level");
     spells[2].push_back("Casting Time");
