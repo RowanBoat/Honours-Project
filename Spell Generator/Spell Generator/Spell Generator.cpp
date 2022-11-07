@@ -35,8 +35,7 @@ struct GeneratedSpell
     int dmgDice = 0;
     int numberOfDmgDice = 0;
     int dmgType = 0;
-    
-    bool hasAdditionalEffect = false;
+    int hasAdditionalEffect = 0;
 
     string name = "";
     string levelStr = "";
@@ -99,8 +98,8 @@ GeneratedSpell generateSpell()
     newSpell.damage = std::to_string(newSpell.numberOfDmgDice) + "d" + std::to_string(newSpell.dmgDice) + " " + dmgTypes[newSpell.dmgType];
 
     // Deciding whether spell has additional effect, may be expanded upon later
-    newSpell.hasAdditionalEffect = rand() % 2;
-    if (newSpell.hasAdditionalEffect)
+    newSpell.hasAdditionalEffect = rand() % 100;
+    if (newSpell.hasAdditionalEffect < 70)
     {
         newSpell.additionalEffectStr = "Yes";
     }
